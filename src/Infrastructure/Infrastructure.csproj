@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<!--<PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.1" />-->
+		<PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="8.0.2" />
+		<PackageReference Include="EFCore.NamingConventions" Version="8.0.3" />
+		<PackageReference Include="MailKit" Version="4.10.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.7" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<!--<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />-->
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Application\Application.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="ArchitectureTests" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Database\Migrations\" />
+	</ItemGroup>
+
+</Project>
