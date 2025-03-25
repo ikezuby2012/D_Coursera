@@ -11,6 +11,7 @@ public interface IRepository<T> where T : class
     Task AddAsync(T entity);
     void Remove(T entity);
     void RemoveRange(IEnumerable<T> entities);
+    Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken);
     Task<T> GetByIdAsync(int id);
     IQueryable<T> Query(Expression<Func<T, bool>> predicate);
     IQueryable<T> QueryAble();

@@ -11,12 +11,14 @@ public class UnitOfWork : IUnitOfWork
 
     public IUserRepository UserRepository { get; init; }
     public ICourseRepository CourseRepository { get; init; }
+    public IMediaRepository MediaRepository { get; init; }
 
     public UnitOfWork(ApplicationDbContext db)
     {
         _db = db;
         UserRepository = new UserRepository(_db);
         CourseRepository = new CourseRepository(_db);
+        MediaRepository = new MediaRepository(_db);
     }
 
     public void Save()

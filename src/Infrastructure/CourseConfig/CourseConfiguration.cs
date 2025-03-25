@@ -52,6 +52,11 @@ internal sealed class CourseConfiguration : IEntityTypeConfiguration<Course>
             .HasForeignKey(c => c.InstructorId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasMany(c => c.MediaUrls)
+               .WithOne(m => m.Course)
+               .HasForeignKey(m => m.CourseId)
+               .OnDelete(DeleteBehavior.Restrict);
+
         // Query filter for soft delete
         builder.HasQueryFilter(c => !c.IsSoftDeleted);
     }

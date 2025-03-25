@@ -2,6 +2,7 @@
 using Application.Abstractions.Authentication;
 using Application.Abstractions.Data;
 using Application.Abstractions.Interface;
+using CloudinaryDotNet;
 using Infrastructure.Authentication;
 using Infrastructure.Authorization;
 using Infrastructure.Database;
@@ -58,10 +59,19 @@ public static class DependencyInjection
 
     private static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
     {
+        IConfigurationSection cloudinaryConfig = configuration.GetSection("Cloudinary");
+        var cloudinaryAccount = new Account(
+            cloudinaryConfig["CloudName"],
+            cloudinaryConfig["ApiKey"],
+            cloudinaryConfig["ApiSecret"]
+        );
+
         services
             .AddHealthChecks()
             .AddSqlServer(configuration.GetConnectionString("Database")!);
         services.AddScoped<IUnitOfWork, Infrastructure.UnitOfWork.UnitOfWork>();
+        services.AddSingleton(new Cloudinary(cloudinaryAccount));
+
         return services;
     }
 

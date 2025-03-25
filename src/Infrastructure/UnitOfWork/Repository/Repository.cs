@@ -141,4 +141,14 @@ public class Repository<T> : IRepository<T> where T : class
 
         return await query.FirstOrDefaultAsync(cancellationToken);
     }
+
+    public async Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+    {
+        if (entities == null || !entities.Any())
+        {
+            return;
+        }
+
+        await dbSet.AddRangeAsync(entities, cancellationToken);
+    }
 }

@@ -7,4 +7,5 @@ public interface IUnitOfWork
     ICourseRepository CourseRepository { get; }
     void Save();
     Task SaveAsync(CancellationToken cancellationToken);
+    IMediaRepository MediaRepository { get; }
 }

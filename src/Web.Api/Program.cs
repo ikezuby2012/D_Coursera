@@ -19,6 +19,7 @@ builder.Services
     .AddInfrastructure(builder.Configuration);
 
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
+builder.Services.AddAntiforgery();
 
 WebApplication app = builder.Build();
 
@@ -45,6 +46,13 @@ app.UseExceptionHandler();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+// Enable form file uploads
+app.Use(async (context, next) =>
+{
+    context.Request.EnableBuffering();
+    await next(context);
+});
 
 // REMARK: If you want to use Controllers, you'll need this.
 app.MapControllers();

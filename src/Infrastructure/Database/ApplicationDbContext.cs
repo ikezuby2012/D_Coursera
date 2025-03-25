@@ -2,10 +2,12 @@
 using Application.Abstractions.Data;
 using Domain.Common;
 using Domain.Course;
+using Domain.Media;
 using Domain.Todos;
 using Domain.Users;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using SharedKernel;
 
 namespace Infrastructure.Database;
@@ -14,10 +16,10 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     : DbContext(options), IApplicationDbContext
 {
     public DbSet<User> Users { get; set; }
-
     public DbSet<TodoItem> TodoItems { get; set; }
-
     public DbSet<Course> Courses { get; set; }
+    public DbSet<Media> Medias { get; set; }
+    public DatabaseFacade DatabaseFacade => base.Database;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
