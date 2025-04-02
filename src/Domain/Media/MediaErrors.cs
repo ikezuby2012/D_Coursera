@@ -9,6 +9,12 @@ public static class MediaErrors
     public static Error NoMediaFound => Error.NotFound(
         "Media.NoMediaFound",
         "No Media found or repository returned");
+    public static Error InvalidPageNumber => Error.Failure(
+        "Media.InvalidPageNumber",
+        "Invalid Page Number");
+    public static Error InvalidPageSize => Error.Failure(
+        "Media.InvalidPageSize",
+        "Invalid Page Size");
     public static Error FailedToFetchMedia(string message) => Error.Failure(
         "Media.FailedToFetchMedia",
         $"No Media found or repository returned, error message is {message}");

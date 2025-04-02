@@ -21,11 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Auth\ResetPassword\" />
-    <Folder Include="Media\GetCourseMedia\" />
-    <Folder Include="Media\GetAllMedia\" />
-    <Folder Include="Media\DeleteMediaById\" />
-    <Folder Include="Media\GetMediaById\" />
-    <Folder Include="Media\UpdateMediaById\" />
   </ItemGroup>
 
 </Project>

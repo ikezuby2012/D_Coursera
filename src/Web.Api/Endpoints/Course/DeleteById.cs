@@ -2,7 +2,6 @@
 using System.Net;
 using Application.Abstractions.Authentication;
 using Application.Courses.DeleteCourseById;
-using Domain.DTO.Courses;
 using MediatR;
 using SharedKernel;
 using Web.Api.EndpointFilter;

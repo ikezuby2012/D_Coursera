@@ -6,7 +6,6 @@ using CloudinaryDotNet.Actions;
 using Domain.Course;
 using Domain.DTO.Media;
 using Domain.Media;
-using Microsoft.Extensions.Logging;
 using SharedKernel;
 
 namespace Application.Media.CreateMedia;
