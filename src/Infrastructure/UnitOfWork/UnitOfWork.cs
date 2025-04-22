@@ -12,6 +12,7 @@ public class UnitOfWork : IUnitOfWork
     public IUserRepository UserRepository { get; init; }
     public ICourseRepository CourseRepository { get; init; }
     public IMediaRepository MediaRepository { get; init; }
+    public IAssignmentRepository AssignmentRepository { get; init; }
 
     public UnitOfWork(ApplicationDbContext db)
     {
@@ -19,6 +20,7 @@ public class UnitOfWork : IUnitOfWork
         UserRepository = new UserRepository(_db);
         CourseRepository = new CourseRepository(_db);
         MediaRepository = new MediaRepository(_db);
+        AssignmentRepository = new AssignmentRepository(_db);
     }
 
     public void Save()

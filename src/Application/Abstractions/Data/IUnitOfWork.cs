@@ -8,4 +8,5 @@ public interface IUnitOfWork
     void Save();
     Task SaveAsync(CancellationToken cancellationToken);
     IMediaRepository MediaRepository { get; }
+    IAssignmentRepository AssignmentRepository { get; }
 }

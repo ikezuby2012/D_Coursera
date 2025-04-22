@@ -1,5 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Application.Abstractions.Data;
+using Domain.Assignments;
+using Domain.AssignmentSubmission;
 using Domain.Common;
 using Domain.Course;
 using Domain.Media;
@@ -19,6 +21,8 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<TodoItem> TodoItems { get; set; }
     public DbSet<Course> Courses { get; set; }
     public DbSet<Media> Medias { get; set; }
+    public DbSet<Assignment> Assignments { get; set; }
+    public DbSet<AssignmentSubmissions> AssignmentSubmissions { get; set; }
     public DatabaseFacade DatabaseFacade => base.Database;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
