@@ -19,7 +19,9 @@ internal class CreateAssignmentCommandValidator : AbstractValidator<CreateAssigm
         RuleFor(x => x.MaxScore)
             .GreaterThan(0).WithMessage("MaxScore must be greater than 0.");
         RuleFor(x => x.Type)
-            .GreaterThanOrEqualTo(1).WithMessage("Type must be a positive integer.");
+            .GreaterThanOrEqualTo(1).WithMessage("Type must be a positive integer.")
+            .Must(BeAValidAssignmentType)
+            .WithMessage("Invalid assignment type selected.");
 
     }
 
@@ -28,6 +30,11 @@ internal class CreateAssignmentCommandValidator : AbstractValidator<CreateAssigm
         return Guid.TryParse(guid, out _);
     }
 
+    private bool BeAValidAssignmentType(int id)
+    {
+        // Assuming FromValue returns null if not found
+        return Domain.AssignmentType.AssignmentTypes.FromValue(id) != null;
+    }
     private async Task<bool> CourseExists(string courseId, CancellationToken cancellationToken)
     {
         if (!Guid.TryParse(courseId, out Guid parsedCourseId))

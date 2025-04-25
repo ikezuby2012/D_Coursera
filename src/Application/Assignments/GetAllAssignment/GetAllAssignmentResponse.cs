@@ -1,5 +1,5 @@
 ﻿namespace Application.Assignments.GetAllAssignment;
-internal class GetAllAssignmentResponse
+public sealed class GetAllAssignmentResponse
 {
     public IEnumerable<Domain.DTO.Assignment.AssigmentResponseDto> data { get; set; }
     public int TotalItems { get; set; }
