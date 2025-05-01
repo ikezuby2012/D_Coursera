@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Application.Media.GetCourseMedia;
-internal class GetAllCourseMediaQueryValidation : AbstractValidator<GetAllCourseMediaQuery>
+public class GetAllCourseMediaQueryValidation : AbstractValidator<GetAllCourseMediaQuery>
 {
     public GetAllCourseMediaQueryValidation()
     {

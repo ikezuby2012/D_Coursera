@@ -16,8 +16,8 @@ public sealed class AssignmentSubmissions : Entity, IAuditableEntity
     public User SubmittedBy { get; set; }
     public string SubmissionText { get; set; }
     public string FileUrl { get; set; }
+    public string? Feedback { get; set; }
     public double? Grade { get; set; }
-    public string? Feedback {  get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? GradedAt { get; set; }

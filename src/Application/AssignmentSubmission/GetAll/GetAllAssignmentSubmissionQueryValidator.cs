@@ -1,15 +1,13 @@
 ﻿using FluentValidation;
 
-namespace Application.Assignments.GetAllAssignment;
-public class GetAllAssignmentQueryValidator : AbstractValidator<GetAllAssignmentQuery>
+namespace Application.AssignmentSubmission.GetAll;
+public class GetAllAssignmentSubmissionQueryValidator : AbstractValidator<GetAllAssignmentSubmissionQuery>
 {
-
-    public GetAllAssignmentQueryValidator()
+    public GetAllAssignmentSubmissionQueryValidator()
     {
-        // Validate PageSize
         RuleFor(x => x.PageSize)
-            .GreaterThan(0).WithMessage("PageSize must be greater than 0.")
-            .LessThanOrEqualTo(1000).WithMessage("PageSize cannot exceed 1000.");
+          .GreaterThan(0).WithMessage("PageSize must be greater than 0.")
+          .LessThanOrEqualTo(1000).WithMessage("PageSize cannot exceed 1000.");
 
         // Validate PageNumber
         RuleFor(x => x.pageNumber)
@@ -28,16 +26,11 @@ public class GetAllAssignmentQueryValidator : AbstractValidator<GetAllAssignment
             .Must(x => !x.DateFrom.HasValue || !x.DateTo.HasValue || x.DateFrom <= x.DateTo)
             .WithMessage("DateFrom must be less than or equal to DateTo.");
 
-        // Validate CourseId
-        RuleFor(x => x.CourseId)
-            .Must(BeAValidGuid).WithMessage("CourseId must be a valid GUID.")
-            .When(x => x.CourseId.HasValue);
-
-        // Validate CollectionName
-        RuleFor(x => x.CollectionName)
-            .MaximumLength(255).WithMessage("CollectionName must not exceed 255 characters.")
-            .When(x => !string.IsNullOrEmpty(x.CollectionName));
+        RuleFor(x => x.assignmentId)
+           .Must(BeAValidGuid).WithMessage("AssignmentId must be a valid GUID.")
+           .When(x => x.assignmentId.HasValue);
     }
+
     private bool BeAValidGuid(Guid? guid)
     {
         return guid.HasValue && Guid.TryParse(guid.ToString(), out _);

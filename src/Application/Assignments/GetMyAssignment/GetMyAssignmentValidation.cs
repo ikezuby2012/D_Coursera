@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Application.Assignments.GetMyAssignment;
-internal sealed class GetMyAssignmentValidation : AbstractValidator<GetMyAssignmentQuery>
+public class GetMyAssignmentValidation : AbstractValidator<GetMyAssignmentQuery>
 {
     public GetMyAssignmentValidation()
     {

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Application.Media.GetMediaById;
-internal sealed class GetMediaByIdQueryValidator : AbstractValidator<GetMediaByIdQuery>
+public class GetMediaByIdQueryValidator : AbstractValidator<GetMediaByIdQuery>
 {
     public GetMediaByIdQueryValidator()
     {

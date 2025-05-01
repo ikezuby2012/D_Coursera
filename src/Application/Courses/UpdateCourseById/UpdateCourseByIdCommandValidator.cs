@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Application.Courses.UpdateCourseById;
-internal class UpdateCourseByIdCommandValidator : AbstractValidator<UpdateCourseByIdCommand>
+public class UpdateCourseByIdCommandValidator : AbstractValidator<UpdateCourseByIdCommand>
 {
     public UpdateCourseByIdCommandValidator()
     {

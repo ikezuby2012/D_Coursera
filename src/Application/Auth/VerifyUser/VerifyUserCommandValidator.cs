@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Application.Auth.VerifyUser;
-internal sealed class VerifyUserCommandValidator : AbstractValidator<VerifyUserCommand>
+public class VerifyUserCommandValidator : AbstractValidator<VerifyUserCommand>
 {
     public VerifyUserCommandValidator()
     {

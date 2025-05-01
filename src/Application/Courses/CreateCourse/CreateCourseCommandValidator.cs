@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Application.Courses.CreateCourse;
-internal sealed class CreateCourseCommandValidator : AbstractValidator<CreateCourseCommand>
+public class CreateCourseCommandValidator : AbstractValidator<CreateCourseCommand>
 {
     public CreateCourseCommandValidator()
     {

@@ -33,5 +33,4 @@ public sealed class AssigmentResponseDto
         CreatedById = assignments.CreatedById!,
         ModifiedBy = assignments.ModifiedBy,
     };
-
 }

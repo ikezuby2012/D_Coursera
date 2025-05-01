@@ -2,7 +2,7 @@
 using FluentValidation;
 
 namespace Application.Assignments.CreateAssignment;
-internal class CreateAssignmentCommandValidator : AbstractValidator<CreateAssigmentCommand>
+public class CreateAssignmentCommandValidator : AbstractValidator<CreateAssigmentCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
     public CreateAssignmentCommandValidator(IUnitOfWork unitOfWork)

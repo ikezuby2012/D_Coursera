@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Application.Courses.DeleteCourseById;
-internal sealed class DeleteCommandValidator : AbstractValidator<DeleteCommand>
+public class DeleteCommandValidator : AbstractValidator<DeleteCommand>
 {
     public DeleteCommandValidator()
     {

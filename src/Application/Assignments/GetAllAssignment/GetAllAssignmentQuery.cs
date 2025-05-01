@@ -7,4 +7,4 @@ public sealed record GetAllAssignmentQuery(int PageSize = 1000,
     DateTime? DateFrom = null,
     DateTime? DateTo = null,
     Guid? CourseId = null,
-    string? CollectionName = null) : ICommand<GetAllAssignmentResponse>;
+    string? CollectionName = null) : IQuery<GetAllAssignmentResponse>;

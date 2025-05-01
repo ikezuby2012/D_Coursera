@@ -8,7 +8,7 @@ using SharedKernel;
 using Assignment = Domain.Assignments.Assignment;
 
 namespace Application.Assignments.GetAllAssignment;
-internal sealed class GetAllAssignmentQueryHandler(IUnitOfWork unitOfWork) : ICommandHandler<GetAllAssignmentQuery, GetAllAssignmentResponse>
+internal sealed class GetAllAssignmentQueryHandler(IUnitOfWork unitOfWork) : IQueryHandler<GetAllAssignmentQuery, GetAllAssignmentResponse>
 {
     public async Task<Result<GetAllAssignmentResponse>> Handle(GetAllAssignmentQuery request, CancellationToken cancellationToken)
     {
@@ -31,13 +31,13 @@ internal sealed class GetAllAssignmentQueryHandler(IUnitOfWork unitOfWork) : ICo
 
         int totalItems = await query.CountAsync(cancellationToken);
 
-        List<AssigmentResponseDto> media = await query.OrderByDescending(m => m.CreatedAt)
+        List<AssigmentResponseDto> assignments = await query.OrderByDescending(m => m.CreatedAt)
             .Skip((request.pageNumber - 1) * request.PageSize)
             .Take(request.PageSize).Select(m => (AssigmentResponseDto)m).ToListAsync(cancellationToken);
 
         return Result.Success(new GetAllAssignmentResponse
         {
-            data = media,
+            data = assignments,
             PageNumber = request.pageNumber,
             PageSize = request.PageSize,
             TotalItems = totalItems,

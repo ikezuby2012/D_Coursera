@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Application.Assignments.DeleteAssignmentById;
-internal sealed class DeleteAssignmentByIdValidator : AbstractValidator<DeleteAssigmentByIdCommand>
+public class DeleteAssignmentByIdValidator : AbstractValidator<DeleteAssigmentByIdCommand>
 {
     public DeleteAssignmentByIdValidator()
     {

@@ -26,9 +26,7 @@ internal sealed class AssignmentSubmissionConfiguration : IEntityTypeConfigurati
                    .IsRequired(false) // FileUrl is optional
                    .HasMaxLength(1000);
 
-        builder.Property(asub => asub.Grade)
-                   .IsRequired(false) // Grade is optional
-                   .HasPrecision(18, 2);
+        builder.Property(asub => asub.Grade).IsRequired(false);
 
         builder.Property(asub => asub.Feedback)
                    .IsRequired(false) // Feedback is optional

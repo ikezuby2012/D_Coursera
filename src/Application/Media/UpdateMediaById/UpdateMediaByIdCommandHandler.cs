@@ -3,8 +3,6 @@ using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using Domain.Course;
-using Domain.DTO.Courses;
 using Domain.DTO.Media;
 using Domain.Media;
 using SharedKernel;
