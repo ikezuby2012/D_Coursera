@@ -4,6 +4,7 @@ using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250503181019_create-exam-table")]
+    partial class createExamtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -285,243 +288,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("TBL_COURSES", "dbo");
                 });
 
-            modelBuilder.Entity("Domain.Exams.ExamAnswer", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
-
-                    b.Property<string>("AnswerText")
-                        .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("nvarchar(4000)")
-                        .HasColumnName("answer_text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedById")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("created_by_id");
-
-                    b.Property<bool>("IsCorrect")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_correct");
-
-                    b.Property<bool>("IsSoftDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_soft_deleted");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("modified_by");
-
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("question_id");
-
-                    b.Property<Guid>("SubmissionId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("submission_id");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("updated_at");
-
-                    b.HasKey("Id")
-                        .HasName("pk_tbl_exam_answer");
-
-                    b.HasIndex("QuestionId")
-                        .HasDatabaseName("ix_tbl_exam_answer_question_id");
-
-                    b.HasIndex("SubmissionId")
-                        .HasDatabaseName("ix_tbl_exam_answer_submission_id");
-
-                    b.ToTable("TBL_EXAM_ANSWER", "dbo");
-                });
-
-            modelBuilder.Entity("Domain.Exams.ExamQuestionOption", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedById")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("created_by_id");
-
-                    b.Property<Guid?>("ExamQuestionsId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("exam_questions_id");
-
-                    b.Property<bool>("IsCorrect")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_correct");
-
-                    b.Property<bool>("IsSoftDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_soft_deleted");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("modified_by");
-
-                    b.Property<string>("OptionLabel")
-                        .IsRequired()
-                        .HasMaxLength(3000)
-                        .HasColumnType("nvarchar(3000)")
-                        .HasColumnName("option_label");
-
-                    b.Property<string>("OptionText")
-                        .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("nvarchar(4000)")
-                        .HasColumnName("option_text");
-
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("question_id");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("updated_at");
-
-                    b.HasKey("Id")
-                        .HasName("pk_tbl_exam_question_option");
-
-                    b.HasIndex("ExamQuestionsId")
-                        .HasDatabaseName("ix_tbl_exam_question_option_exam_questions_id");
-
-                    b.HasIndex("QuestionId")
-                        .HasDatabaseName("ix_tbl_exam_question_option_question_id");
-
-                    b.ToTable("TBL_EXAM_QUESTION_OPTION", "dbo");
-                });
-
-            modelBuilder.Entity("Domain.Exams.ExamQuestions", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedById")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("created_by_id");
-
-                    b.Property<Guid>("ExamId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("exam_id");
-
-                    b.Property<bool>("IsSoftDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_soft_deleted");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("modified_by");
-
-                    b.Property<string>("QuestionText")
-                        .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("nvarchar(4000)")
-                        .HasColumnName("question_text");
-
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int")
-                        .HasColumnName("type_id");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("updated_at");
-
-                    b.HasKey("Id")
-                        .HasName("pk_tbl_exam_questions");
-
-                    b.HasIndex("ExamId")
-                        .HasDatabaseName("ix_tbl_exam_questions_exam_id");
-
-                    b.HasIndex("TypeId")
-                        .HasDatabaseName("ix_tbl_exam_questions_type_id");
-
-                    b.ToTable("TBL_EXAM_QUESTIONS", "dbo");
-                });
-
-            modelBuilder.Entity("Domain.Exams.ExamType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id")
-                        .HasName("pk_tbl_exam_types");
-
-                    b.ToTable("TBL_EXAM_TYPES", "dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Multiple Choice"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "True or False"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Fill In The Blank"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Match The Following"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Brief Answer Only"
-                        });
-                });
-
             modelBuilder.Entity("Domain.Exams.Exams", b =>
                 {
                     b.Property<Guid>("Id")
@@ -615,78 +381,6 @@ namespace Infrastructure.Migrations
                         {
                             t.HasCheckConstraint("CK_Exams_Status", "[Status] IN ('Scheduled', 'InProgress', 'Completed', 'PostPoned', 'Cancelled')");
                         });
-                });
-
-            modelBuilder.Entity("Domain.Exams.ExamsSubmission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedById")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("created_by_id");
-
-                    b.Property<Guid>("ExamId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("exam_id");
-
-                    b.Property<DateTime?>("GradedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("graded_at");
-
-                    b.Property<Guid>("GradedById")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("graded_by_id");
-
-                    b.Property<bool>("IsGraded")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_graded");
-
-                    b.Property<bool>("IsSoftDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_soft_deleted");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("modified_by");
-
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("student_id");
-
-                    b.Property<decimal?>("TotalScore")
-                        .HasColumnType("decimal(18,2)")
-                        .HasColumnName("total_score");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("updated_at");
-
-                    b.HasKey("Id")
-                        .HasName("pk_tbl_exam_submission");
-
-                    b.HasIndex("ExamId")
-                        .HasDatabaseName("ix_tbl_exam_submission_exam_id");
-
-                    b.HasIndex("GradedById")
-                        .HasDatabaseName("ix_tbl_exam_submission_graded_by_id");
-
-                    b.HasIndex("StudentId")
-                        .HasDatabaseName("ix_tbl_exam_submission_student_id");
-
-                    b.ToTable("TBL_EXAM_SUBMISSION", "dbo");
                 });
 
             modelBuilder.Entity("Domain.Media.Media", b =>
@@ -984,65 +678,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Instructor");
                 });
 
-            modelBuilder.Entity("Domain.Exams.ExamAnswer", b =>
-                {
-                    b.HasOne("Domain.Exams.ExamQuestions", "Questions")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_tbl_exam_answer_tbl_exam_questions_question_id");
-
-                    b.HasOne("Domain.Exams.ExamsSubmission", "Submission")
-                        .WithMany()
-                        .HasForeignKey("SubmissionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_tbl_exam_answer_tbl_exam_submission_submission_id");
-
-                    b.Navigation("Questions");
-
-                    b.Navigation("Submission");
-                });
-
-            modelBuilder.Entity("Domain.Exams.ExamQuestionOption", b =>
-                {
-                    b.HasOne("Domain.Exams.ExamQuestions", null)
-                        .WithMany("Options")
-                        .HasForeignKey("ExamQuestionsId")
-                        .HasConstraintName("fk_tbl_exam_question_option_tbl_exam_questions_exam_questions_id");
-
-                    b.HasOne("Domain.Exams.ExamQuestions", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_tbl_exam_question_option_tbl_exam_questions_question_id");
-
-                    b.Navigation("Question");
-                });
-
-            modelBuilder.Entity("Domain.Exams.ExamQuestions", b =>
-                {
-                    b.HasOne("Domain.Exams.Exams", "Exam")
-                        .WithMany()
-                        .HasForeignKey("ExamId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_tbl_exam_questions_tbl_exam_exam_id");
-
-                    b.HasOne("Domain.Exams.ExamType", "Type")
-                        .WithMany()
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_tbl_exam_questions_exam_type_type_id");
-
-                    b.Navigation("Exam");
-
-                    b.Navigation("Type");
-                });
-
             modelBuilder.Entity("Domain.Exams.Exams", b =>
                 {
                     b.HasOne("Domain.Course.Course", "Course")
@@ -1062,36 +697,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("Instructor");
-                });
-
-            modelBuilder.Entity("Domain.Exams.ExamsSubmission", b =>
-                {
-                    b.HasOne("Domain.Exams.Exams", "Exams")
-                        .WithMany()
-                        .HasForeignKey("ExamId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_tbl_exam_submission_tbl_exam_exam_id");
-
-                    b.HasOne("Domain.Users.User", "GradedBy")
-                        .WithMany()
-                        .HasForeignKey("GradedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_tbl_exam_submission_tbl_users_graded_by_id");
-
-                    b.HasOne("Domain.Users.User", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_tbl_exam_submission_tbl_users_student_id");
-
-                    b.Navigation("Exams");
-
-                    b.Navigation("GradedBy");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Domain.Media.Media", b =>
@@ -1129,11 +734,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Course.Course", b =>
                 {
                     b.Navigation("MediaUrls");
-                });
-
-            modelBuilder.Entity("Domain.Exams.ExamQuestions", b =>
-                {
-                    b.Navigation("Options");
                 });
 #pragma warning restore 612, 618
         }

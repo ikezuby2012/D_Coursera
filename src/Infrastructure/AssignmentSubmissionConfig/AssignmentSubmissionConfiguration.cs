@@ -19,14 +19,14 @@ internal sealed class AssignmentSubmissionConfiguration : IEntityTypeConfigurati
                    .IsRequired();
 
         builder.Property(asub => asub.SubmissionText)
-               .IsRequired(false) // SubmissionText is optional
+               .IsRequired(false)
                .HasMaxLength(4000);
 
         builder.Property(asub => asub.FileUrl)
-                   .IsRequired(false) // FileUrl is optional
+                   .IsRequired(false)
                    .HasMaxLength(1000);
 
-        builder.Property(asub => asub.Grade).IsRequired(false);
+        builder.Property(asub => asub.Grade).IsRequired(false).HasPrecision(18, 2);
 
         builder.Property(asub => asub.Feedback)
                    .IsRequired(false) // Feedback is optional
@@ -35,34 +35,33 @@ internal sealed class AssignmentSubmissionConfiguration : IEntityTypeConfigurati
                    .IsRequired();
 
         builder.Property(asub => asub.UpdatedAt)
-               .IsRequired(false); // UpdatedAt is nullable
+               .IsRequired(false);
 
         builder.Property(asub => asub.GradedAt)
-               .IsRequired(false); // GradedAt is nullable
+               .IsRequired(false);
 
         builder.Property(asub => asub.CreatedById)
-               .IsRequired(false) // CreatedById is nullable
-               .HasMaxLength(450); // Assuming CreatedById is a string with a max length of 450
+               .IsRequired(false)
+               .HasMaxLength(450);
 
         builder.Property(asub => asub.ModifiedBy)
-               .IsRequired(false) // ModifiedBy is nullable
-               .HasMaxLength(450); // Assuming ModifiedBy is a string with a max length of 450
+               .IsRequired(false)
+               .HasMaxLength(450);
 
         builder.Property(asub => asub.IsSoftDeleted)
                .IsRequired()
-               .HasDefaultValue(false); // Default value for IsSoftDeleted is false
+               .HasDefaultValue(false);
 
         builder.HasOne(asub => asub.Assignment)
-                   .WithMany() // Assuming Assignment has a collection of AssignmentSubmissions
+                   .WithMany()
                    .HasForeignKey(asub => asub.AssignmentId)
-                   .OnDelete(DeleteBehavior.Restrict); // Prevent cascading delete
+                   .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(asub => asub.SubmittedBy)
-               .WithMany() // Assuming User has a collection of AssignmentSubmissions
+               .WithMany()
                .HasForeignKey(asub => asub.SubmittedById)
                .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasQueryFilter(asub => !asub.IsSoftDeleted);
-
     }
 }

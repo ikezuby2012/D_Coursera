@@ -4,6 +4,7 @@ using Domain.Assignments;
 using Domain.AssignmentSubmission;
 using Domain.Common;
 using Domain.Course;
+using Domain.Exams;
 using Domain.Media;
 using Domain.Todos;
 using Domain.Users;
@@ -23,6 +24,10 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<Media> Medias { get; set; }
     public DbSet<Assignment> Assignments { get; set; }
     public DbSet<AssignmentSubmissions> AssignmentSubmissions { get; set; }
+    public DbSet<Exams> Examination { get; set; }
+    public DbSet<ExamQuestions> ExamQuestions { get; set; }
+    public DbSet<ExamQuestionOption> ExamQuestionOptions { get; set; }
+    public DbSet<ExamsSubmission> ExamsSubmissions { get; set; }
     public DatabaseFacade DatabaseFacade => base.Database;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

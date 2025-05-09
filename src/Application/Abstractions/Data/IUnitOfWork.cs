@@ -10,4 +10,7 @@ public interface IUnitOfWork
     IMediaRepository MediaRepository { get; }
     IAssignmentRepository AssignmentRepository { get; }
     IAssignmentSubmissionRepository AssignmentSubmissionRepository { get; }
+    IExamRepository ExamRepository { get; }
+    IExamQuestionsRepository ExamQuestionsRepository { get; }
+    IExamQuestionOptionsRepository ExamQuestionOptionsRepository { get; }
 }

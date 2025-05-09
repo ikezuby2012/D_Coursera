@@ -1,5 +1,4 @@
 ﻿using Domain.DTO.Courses;
-using Domain.Media;
 
 namespace Domain.DTO.Assignment;
 public sealed class CreatedAssignmentDto

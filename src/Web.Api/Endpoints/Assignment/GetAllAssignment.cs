@@ -14,7 +14,7 @@ internal sealed class GetAllAssignment : IEndpoint
     {
         app.MapGet("api/v1/assignment", async (ISender sender, IUserContext userContext, CancellationToken cancellationToken,
            [FromQuery] int pageSize = 1000,
-           [FromQuery] int pageNumber = 0,
+           [FromQuery] int pageNumber = 1,
            [FromQuery] DateTime? dateFrom = null,
            [FromQuery] DateTime? dateTo = null,
            [FromQuery] Guid? courseId = null,
@@ -39,7 +39,7 @@ internal sealed class GetAllAssignment : IEndpoint
             {
                 return Results.BadRequest(ApiResponse<GetAllAssignmentResponse>.Error(ex.Message.ToString(), (int)HttpStatusCode.InternalServerError));
             }
-            return Results.Ok(ApiResponse<GetAllAssignmentResponse>.Success(result.Value, "All my Assignments returned successfully!"));
+            return Results.Ok(ApiResponse<GetAllAssignmentResponse>.Success(result.Value, "All Assignments returned successfully!"));
 
         }).WithTags(Tags.Assignment).RequireAuthorization()
        .AddEndpointFilter<VerifiedUserFilter>();

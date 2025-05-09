@@ -14,6 +14,9 @@ public class UnitOfWork : IUnitOfWork
     public IMediaRepository MediaRepository { get; init; }
     public IAssignmentRepository AssignmentRepository { get; init; }
     public IAssignmentSubmissionRepository AssignmentSubmissionRepository { get; init; }
+    public IExamRepository ExamRepository { get; init; }
+    public IExamQuestionsRepository ExamQuestionsRepository { get; init; }
+    public IExamQuestionOptionsRepository ExamQuestionOptionsRepository { get; init; }
 
     public UnitOfWork(ApplicationDbContext db)
     {
@@ -23,12 +26,14 @@ public class UnitOfWork : IUnitOfWork
         MediaRepository = new MediaRepository(_db);
         AssignmentRepository = new AssignmentRepository(_db);
         AssignmentSubmissionRepository = new AssignmentSubmissionRepository(_db);
+        ExamRepository = new ExamRepository(_db);
+        ExamQuestionsRepository = new ExamQuestionRepository(_db);
+        ExamQuestionOptionsRepository = new ExamQuestionOptionRepository(_db);
     }
 
     public void Save()
     {
         _db.SaveChanges();
-
     }
 
     public async Task SaveAsync(CancellationToken cancellationToken)
