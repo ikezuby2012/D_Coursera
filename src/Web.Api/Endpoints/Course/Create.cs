@@ -1,11 +1,10 @@
-﻿
-using System.Net;
-using Application.Abstractions.Authentication;
+﻿using Application.Abstractions.Authentication;
 using Application.Courses.CreateCourse;
 using Domain.DTO.Courses;
 using MediatR;
 using SharedKernel;
-using Web.Api.EndpointFilter;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Course;
 
@@ -26,15 +25,11 @@ internal sealed class Create : IEndpoint
             var command = new CreateCourseCommand(title: request.Title, Description: request.Description, Duration: request.Duration, Availability: request.Availability);
 
             Result<CreatedCourseDto> result;
-            try
-            {
-                result = await sender.Send(command, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(ApiResponse<CreatedCourseDto>.Error(ex.Message.ToString(), (int)HttpStatusCode.BadRequest));
-            }
-            return Results.Created($"/courses/{result.Value.Id}", ApiResponse<CreatedCourseDto>.Success(result.Value, "Course created successfully"));
-        }).WithTags(Tags.Course).RequireAuthorization().AddEndpointFilter<VerifiedUserFilter>();
+
+            result = await sender.Send(command, cancellationToken);
+
+            return result.Match(value => Results.Created($"/courses/{result.Value.Id}", ApiResponse<CreatedCourseDto>.Success(value, "Course created successfully")), error => CustomResults.Problem(error));
+        }).WithTags(Tags.Course).RequireAuthorization().HasRole("Instructor");
+
     }
 }

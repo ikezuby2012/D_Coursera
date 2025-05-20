@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using Application.Auth.Register;
 using Domain.DTO.Auth;
-using Domain.Users;
 using MediatR;
 using SharedKernel;
 
@@ -16,24 +15,18 @@ internal sealed class Register : IEndpoint
         app.MapPost("api/v1/auth/register", async (Request request, ISender sender, CancellationToken cancellationToken) =>
         {
             Result<CreatedUserDto> result;
-            try
-            {
-                var command = new RegisterUserCommand(
-                request.Email,
-                request.FirstName,
-                request.LastName,
-                request.Password);
 
-                result = await sender.Send(command, cancellationToken);
+            var command = new RegisterUserCommand(
+            request.Email,
+            request.FirstName,
+            request.LastName,
+            request.Password);
 
-                if (!result.IsSuccess)
-                {
-                    return Results.BadRequest(ApiResponse<CreatedUserDto>.Error(result.Error.ToString(), (int)HttpStatusCode.BadRequest));
-                }
-            }
-            catch (Exception ex)
+            result = await sender.Send(command, cancellationToken);
+
+            if (!result.IsSuccess)
             {
-                return Results.BadRequest(ApiResponse<CreatedUserDto>.Error(ex.Message.ToString(), (int)HttpStatusCode.BadRequest));
+                return Results.BadRequest(ApiResponse<CreatedUserDto>.Error(result.Error.ToString(), (int)HttpStatusCode.BadRequest));
             }
 
             return Results.Ok(ApiResponse<CreatedUserDto>.Success(result.Value, "User registered successfully"));

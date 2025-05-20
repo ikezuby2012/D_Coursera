@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Web.Api.EndpointFilter;
 using Web.Api.Endpoints;
 
 namespace Web.Api.Extensions;
@@ -39,5 +40,10 @@ public static class EndpointExtensions
     public static RouteHandlerBuilder HasPermission(this RouteHandlerBuilder app, string permission)
     {
         return app.RequireAuthorization(permission);
+    }
+
+    public static RouteHandlerBuilder HasRole(this RouteHandlerBuilder app, string role)
+    {
+        return app.AddEndpointFilter(new RolePermissionFilter(role));
     }
 }

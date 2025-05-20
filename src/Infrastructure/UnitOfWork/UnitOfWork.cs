@@ -17,6 +17,8 @@ public class UnitOfWork : IUnitOfWork
     public IExamRepository ExamRepository { get; init; }
     public IExamQuestionsRepository ExamQuestionsRepository { get; init; }
     public IExamQuestionOptionsRepository ExamQuestionOptionsRepository { get; init; }
+    public IExamSubmissionRepository ExamSubmissionRepository { get; init; }
+    public IExamAnswerRepository ExamAnswerRepository { get; init; }
 
     public UnitOfWork(ApplicationDbContext db)
     {
@@ -29,6 +31,8 @@ public class UnitOfWork : IUnitOfWork
         ExamRepository = new ExamRepository(_db);
         ExamQuestionsRepository = new ExamQuestionRepository(_db);
         ExamQuestionOptionsRepository = new ExamQuestionOptionRepository(_db);
+        ExamSubmissionRepository = new ExamSubmissionRepository(_db);
+        ExamAnswerRepository = new ExamAnswerRepository(_db);
     }
 
     public void Save()

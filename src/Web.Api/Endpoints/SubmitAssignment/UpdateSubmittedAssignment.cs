@@ -1,11 +1,12 @@
-﻿using System.Net;
-using Application.Abstractions.Authentication;
+﻿using Application.Abstractions.Authentication;
 using Application.AssignmentSubmission.UpdateById;
 using Domain.DTO.AssignmentSubmission;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel;
 using Web.Api.EndpointFilter;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.SubmitAssignment;
 
@@ -20,16 +21,9 @@ internal sealed class UpdateSubmittedAssignment : IEndpoint
 
             Result<UpdatedAssignmentSubmissionDto> result;
 
-            try
-            {
-                result = await sender.Send(command, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(ApiResponse<UpdatedAssignmentSubmissionDto>.Error(ex.Message.ToString(), (int)HttpStatusCode.InternalServerError));
-            }
+            result = await sender.Send(command, cancellationToken);
 
-            return Results.Ok(ApiResponse<UpdatedAssignmentSubmissionDto>.Success(result.Value, "you have successfully updated the data submitted to this assignment"));
+            return result.Match(value => Results.Ok(ApiResponse<UpdatedAssignmentSubmissionDto>.Success(value, $"you have successfully updated the data submitted to this assignment!")), error => CustomResults.Problem(error));
         }).WithTags(Tags.SubmitAssignment).RequireAuthorization().AddEndpointFilter<VerifiedUserFilter>();
     }
 }

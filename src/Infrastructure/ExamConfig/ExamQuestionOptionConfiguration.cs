@@ -32,7 +32,7 @@ internal sealed class ExamQuestionOptionConfiguration : IEntityTypeConfiguration
             .HasDefaultValue(false);
 
         builder.HasOne(e => e.Question)
-               .WithMany()
+               .WithMany(q => q.Options)
                .HasForeignKey(e => e.QuestionId)
                .OnDelete(DeleteBehavior.Restrict);
 

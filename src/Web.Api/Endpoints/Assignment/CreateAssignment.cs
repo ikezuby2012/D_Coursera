@@ -1,10 +1,10 @@
-﻿using System.Net;
-using Application.Abstractions.Authentication;
+﻿using Application.Abstractions.Authentication;
 using Application.Assignments.CreateAssignment;
 using Domain.DTO.Assignment;
 using MediatR;
 using SharedKernel;
-using Web.Api.EndpointFilter;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Assignment;
 
@@ -20,6 +20,7 @@ internal sealed class CreateAssignment : IEndpoint
         public int AssignmentTypeId { get; set; }
         public DateTime DueDate { get; set; }
     }
+
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost("api/v1/assignment", async (Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
@@ -27,15 +28,10 @@ internal sealed class CreateAssignment : IEndpoint
             var command = new CreateAssigmentCommand(request.title, request.description, request.CollectionName, request.CourseId, request.DueDate, request.MaxScore, request.AssignmentTypeId);
 
             Result<CreatedAssignmentDto> result;
-            try
-            {
-                result = await sender.Send(command, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(ApiResponse<CreatedAssignmentDto>.Error(ex.Message.ToString(), (int)HttpStatusCode.BadRequest));
-            }
-            return Results.Created($"/assignment/{result.Value.Id}", ApiResponse<CreatedAssignmentDto>.Success(result.Value, "Assignment created successfully"));
-        }).WithTags(Tags.Assignment).RequireAuthorization().AddEndpointFilter<VerifiedUserFilter>();
+
+            result = await sender.Send(command, cancellationToken);
+
+            return result.Match(value => Results.Created($"/assignment/{result.Value.Id}", ApiResponse<CreatedAssignmentDto>.Success(value, "Assignment created successfully")), error => CustomResults.Problem(error));
+        }).WithTags(Tags.Assignment).RequireAuthorization().HasRole("Instructor");
     }
 }

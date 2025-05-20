@@ -21,6 +21,8 @@
 
 	<ItemGroup>
 		<Folder Include="Auth\ResetPassword\" />
+		<Folder Include="Exam\UpdateExamSubmission\" />
+		<Folder Include="Exam\UpdateExamQuestions\" />
 	</ItemGroup>
 
 </Project>

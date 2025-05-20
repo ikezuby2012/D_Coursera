@@ -151,4 +151,9 @@ public class Repository<T> : IRepository<T> where T : class
 
         await dbSet.AddRangeAsync(entities, cancellationToken);
     }
+
+    public async Task<int> CountAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+    {
+        return await dbSet.CountAsync(predicate, cancellationToken);
+    }
 }

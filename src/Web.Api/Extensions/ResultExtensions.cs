@@ -19,4 +19,23 @@ public static class ResultExtensions
     {
         return result.IsSuccess ? onSuccess(result.Value) : onFailure(result);
     }
+
+    public static IResult Match<TIn>(
+     this Result<TIn> result,
+     Func<TIn, IResult> onSuccess,
+     Func<Error, IResult> onFailure)
+    {
+        return result.IsSuccess ? onSuccess(result.Value) : onFailure(result.Error);
+    }
+
+    //public static IResult Match(
+    //    this Result result,
+    //    Func<IResult> onSuccess,
+    //    Func<Error, IResult> onFailure)
+    //{
+    //    return result.IsSuccess
+    //        ? onSuccess()
+    //        : onFailure(result.Error);
+    //}
+
 }

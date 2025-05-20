@@ -1,9 +1,10 @@
-﻿using System.Net;
-using Application.Abstractions.Authentication;
+﻿using Application.Abstractions.Authentication;
 using Application.Courses.GetById;
 using Domain.DTO.Courses;
 using MediatR;
 using SharedKernel;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Course;
 
@@ -13,18 +14,13 @@ internal sealed class GetById : IEndpoint
     {
         app.MapGet("api/v1/course/{Id:guid}", async (Guid Id, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
-            Result<CreatedCourseDto> response;
-            try
-            {
-                var command = new GetCourseByIdQuery(Id);
+            Result<CreatedCourseDto> result;
 
-                response = await sender.Send(command, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(ApiResponse<CreatedCourseDto>.Error(ex.Message.ToString(), (int)HttpStatusCode.BadRequest));
-            }
-            return Results.Ok(ApiResponse<CreatedCourseDto>.Success(response.Value, "Course fetched successfully"));
+            var command = new GetCourseByIdQuery(Id);
+
+            result = await sender.Send(command, cancellationToken);
+
+            return result.Match(value => Results.Ok(ApiResponse<CreatedCourseDto>.Success(value, "Course fetched successfully")), error => CustomResults.Problem(error));
         }).WithTags(Tags.Course).RequireAuthorization();
     }
 }

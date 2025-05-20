@@ -3,7 +3,7 @@ using Application.Media.CreateMedia;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel;
-using Web.Api.EndpointFilter;
+using Web.Api.Extensions;
 
 namespace Web.Api.Endpoints.Media;
 
@@ -34,7 +34,6 @@ internal sealed class CreateCourseMedia : IEndpoint
             return Results.Created($"/media/{CourseId}", ApiResponse<IEnumerable<Domain.DTO.Media.CreatedMediaDto>>.Success(result.Value, "media created for the course successfully"));
         }).WithTags(Tags.Media)
         .RequireAuthorization()
-        .AddEndpointFilter<VerifiedUserFilter>().DisableAntiforgery();
-        //.WithMetadata(new IgnoreAntiforgeryTokenAttribute());
+        .HasRole("Instructor").DisableAntiforgery();
     }
 }

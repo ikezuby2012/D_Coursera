@@ -1,10 +1,11 @@
-﻿using System.Net;
-using Application.Media.UpdateMediaById;
+﻿using Application.Media.UpdateMediaById;
 using Domain.DTO.Media;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel;
 using Web.Api.EndpointFilter;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Media;
 
@@ -17,17 +18,9 @@ internal sealed class UpdateMedia : IEndpoint
             var query = new UpdateMediaByIdCommand(Id, Files, CourseId, CollectionName);
 
             Result<UpdatedMediaDto> result;
+            result = await sender.Send(query, cancellationToken);
 
-            try
-            {
-                result = await sender.Send(query, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(ApiResponse<UpdatedMediaDto>.Error(ex.Message.ToString(), (int)HttpStatusCode.InternalServerError));
-            }
-
-            return Results.Ok(ApiResponse<UpdatedMediaDto>.Success(result.Value, "Media updated successfully"));
+            return result.Match(value => Results.Ok(ApiResponse<UpdatedMediaDto>.Success(value, $"media updated successfully")), error => CustomResults.Problem(error));
         }).WithTags(Tags.Media)
         .RequireAuthorization()
         .AddEndpointFilter<VerifiedUserFilter>();

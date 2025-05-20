@@ -1,9 +1,10 @@
-﻿using System.Net;
-using Application.AssignmentSubmission.GetAll;
+﻿using Application.AssignmentSubmission.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel;
 using Web.Api.EndpointFilter;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.SubmitAssignment;
 
@@ -28,15 +29,8 @@ internal sealed class GetAllSubmittedAssignment : IEndpoint
 
             Result<GetAllAssignmentSubmissionResponse> result;
 
-            try
-            {
-                result = await sender.Send(query, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(ApiResponse<GetAllAssignmentSubmissionResponse>.Error(ex.Message.ToString(), (int)HttpStatusCode.InternalServerError));
-            }
-            return Results.Ok(ApiResponse<GetAllAssignmentSubmissionResponse>.Success(result.Value, "all Submitted data returned successfully!"));
+            result = await sender.Send(query, cancellationToken);
+            return result.Match(value => Results.Ok(ApiResponse<GetAllAssignmentSubmissionResponse>.Success(value, $"all Submitted data returned successfully!")), error => CustomResults.Problem(error));
         }).WithTags(Tags.SubmitAssignment).RequireAuthorization().AddEndpointFilter<VerifiedUserFilter>();
     }
 }

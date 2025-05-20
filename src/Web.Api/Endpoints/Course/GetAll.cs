@@ -3,6 +3,8 @@ using Application.Courses.GetAllCourses;
 using Domain.DTO.Courses;
 using MediatR;
 using SharedKernel;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Course;
 
@@ -16,7 +18,7 @@ internal sealed class GetAll : IEndpoint
 
             Result<IEnumerable<GetAllCoursesDto>> result = await sender.Send(command, cancellationToken);
 
-            return Results.Ok(ApiResponse<IEnumerable<GetAllCoursesDto>>.Success(result.Value, $"all results {result.Value?.ToList().Count}"));
+            return result.Match(value => Results.Ok(ApiResponse<IEnumerable<GetAllCoursesDto>>.Success(value, $"all results {result.Value?.ToList().Count}")), error => CustomResults.Problem(error));
         }).WithTags(Tags.Course).RequireAuthorization();
     }
 }

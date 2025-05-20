@@ -8,7 +8,7 @@ public class CreatedUserDto
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string OTP { get; set; }
-    public int? RoleId { get; set; }
+    public string RoleName { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public bool IsActive { get; set; } = true;
@@ -21,7 +21,7 @@ public class CreatedUserDto
         FirstName = user.FirstName,
         LastName = user.LastName,
         OTP = user.OTP,
-        RoleId = user.RoleId,
+        RoleName = UserRole.UserRoles.FromValue((int)user.RoleId!)?.Name!,
         CreatedAt = user.CreatedAt,
         UpdatedAt = user.UpdatedAt,
         IsActive = user.IsActive,

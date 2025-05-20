@@ -31,6 +31,10 @@ internal sealed class ExamSubmissionConfiguration : IEntityTypeConfiguration<Exa
         builder.Property(e => e.IsSoftDeleted)
             .HasDefaultValue(false);
 
+        builder.Property(e => e.StartTime).IsRequired();
+
+        builder.Property(e => e.EndTime).IsRequired();
+
         builder.HasOne(e => e.Student)
                .WithMany()
                .HasForeignKey(e => e.StudentId)
@@ -45,6 +49,8 @@ internal sealed class ExamSubmissionConfiguration : IEntityTypeConfiguration<Exa
                .WithMany()
                .HasForeignKey(e => e.ExamId)
                .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasMany(e => e.Answers).WithOne(e => e.Submission).HasForeignKey(e => e.SubmissionId).OnDelete(DeleteBehavior.Restrict);
 
         builder.HasQueryFilter(e => !e.IsSoftDeleted);
     }

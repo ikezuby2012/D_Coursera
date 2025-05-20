@@ -28,6 +28,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<ExamQuestions> ExamQuestions { get; set; }
     public DbSet<ExamQuestionOption> ExamQuestionOptions { get; set; }
     public DbSet<ExamsSubmission> ExamsSubmissions { get; set; }
+    public DbSet<ExamAnswer> ExamAnswers { get; set; }
     public DatabaseFacade DatabaseFacade => base.Database;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

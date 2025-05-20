@@ -26,4 +26,9 @@ public class ExamQuestionOptionRepository : Repository<ExamQuestionOption>, IExa
     {
         _db.ExamQuestionOptions.Update(examQuestionOption);
     }
+
+    public void UpdateRangeAsync(List<ExamQuestionOption> examOptions, CancellationToken cancellationToken = default)
+    {
+        _db.Set<ExamQuestionOption>().UpdateRange(examOptions);
+    }
 }

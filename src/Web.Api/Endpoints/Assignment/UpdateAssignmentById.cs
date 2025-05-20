@@ -1,10 +1,11 @@
-﻿using System.Net;
-using Application.Abstractions.Authentication;
+﻿using Application.Abstractions.Authentication;
 using Application.Assignments.UpdateAssignmentById;
 using Domain.DTO.Assignment;
 using MediatR;
 using SharedKernel;
 using Web.Api.EndpointFilter;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Assignment;
 
@@ -24,20 +25,13 @@ internal sealed class UpdateAssignmentById : IEndpoint
     {
         app.MapPut("api/v1/assignment/{id:guid}", async (Guid Id, Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
-            Result<AssigmentResponseDto> response;
-            try
-            {
-                var command = new UpdateAssignmentByIdCommand(Id, request.title, request.description, request.CollectionName, request.AssignmentTypeId, request.MaxScore, request.DueDate);
+            Result<AssigmentResponseDto> result;
 
-                response = await sender.Send(command, cancellationToken);
+            var command = new UpdateAssignmentByIdCommand(Id, request.title, request.description, request.CollectionName, request.AssignmentTypeId, request.MaxScore, request.DueDate);
 
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(ApiResponse<AssigmentResponseDto>.Error(ex.Message.ToString(), (int)HttpStatusCode.BadRequest));
-            }
-            return Results.Ok(ApiResponse<AssigmentResponseDto>.Success(response.Value, "assignment updated successfully"));
+            result = await sender.Send(command, cancellationToken);
 
+            return result.Match(value => Results.Ok(ApiResponse<AssigmentResponseDto>.Success(value, $"assignment updated successfully!")), error => CustomResults.Problem(error));
         }).WithTags(Tags.Assignment).RequireAuthorization()
         .AddEndpointFilter<VerifiedUserFilter>();
     }

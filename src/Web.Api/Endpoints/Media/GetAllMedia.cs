@@ -1,9 +1,10 @@
-﻿using System.Net;
-using Application.Media.GetAllMedia;
+﻿using Application.Media.GetAllMedia;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel;
 using Web.Api.EndpointFilter;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Media;
 
@@ -30,15 +31,9 @@ internal sealed class GetAllMedia : IEndpoint
 
             Result<GetAllMediaResponse> result;
 
-            try
-            {
-                result = await sender.Send(query, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(ApiResponse<GetAllMediaResponse>.Error(ex.Message.ToString(), (int)HttpStatusCode.InternalServerError));
-            }
-            return Results.Ok(ApiResponse<GetAllMediaResponse>.Success(result.Value, "media returned successfully!"));
+            result = await sender.Send(query, cancellationToken);
+
+            return result.Match(value => Results.Ok(ApiResponse<GetAllMediaResponse>.Success(value, $"media returned successfully")), error => CustomResults.Problem(error));
         }).WithTags(Tags.Media)
         .RequireAuthorization()
         .AddEndpointFilter<VerifiedUserFilter>();

@@ -1,11 +1,12 @@
-﻿using System.Net;
-using Application.Abstractions.Authentication;
+﻿using Application.Abstractions.Authentication;
 using Application.Assignments.GetAllAssignment;
 using Application.Assignments.GetMyAssignment;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel;
 using Web.Api.EndpointFilter;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Assignment;
 
@@ -32,15 +33,9 @@ internal sealed class GetMyAssignment : IEndpoint
 
             Result<GetAllAssignmentResponse> result;
 
-            try
-            {
-                result = await sender.Send(query, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(ApiResponse<GetAllAssignmentResponse>.Error(ex.Message.ToString(), (int)HttpStatusCode.InternalServerError));
-            }
-            return Results.Ok(ApiResponse<GetAllAssignmentResponse>.Success(result.Value, "All my Assignments returned successfully!"));
+            result = await sender.Send(query, cancellationToken);
+
+            return result.Match(value => Results.Ok(ApiResponse<GetAllAssignmentResponse>.Success(value, $"All my Assignments returned successfully!")), error => CustomResults.Problem(error));
 
         }).WithTags(Tags.Assignment).RequireAuthorization()
         .AddEndpointFilter<VerifiedUserFilter>();

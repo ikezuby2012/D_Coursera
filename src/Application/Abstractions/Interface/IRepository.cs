@@ -17,6 +17,6 @@ public interface IRepository<T> where T : class
     IQueryable<T> QueryAble();
     Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
     Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
-
     Task<T?> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
+    Task<int> CountAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
 }

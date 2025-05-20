@@ -307,11 +307,26 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("created_by_id");
 
+                    b.Property<DateTime?>("GradedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("graded_at");
+
+                    b.Property<string>("GradedById")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)")
+                        .HasColumnName("graded_by_id");
+
                     b.Property<bool>("IsCorrect")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false)
                         .HasColumnName("is_correct");
+
+                    b.Property<bool>("IsGraded")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_graded");
 
                     b.Property<bool>("IsSoftDeleted")
                         .ValueGeneratedOnAdd()
@@ -323,6 +338,11 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("modified_by");
+
+                    b.Property<string>("OptionLabel")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)")
+                        .HasColumnName("option_label");
 
                     b.Property<Guid>("QuestionId")
                         .HasColumnType("uniqueidentifier")
@@ -364,10 +384,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("created_by_id");
 
-                    b.Property<Guid?>("ExamQuestionsId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("exam_questions_id");
-
                     b.Property<bool>("IsCorrect")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -407,9 +423,6 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_tbl_exam_question_option");
-
-                    b.HasIndex("ExamQuestionsId")
-                        .HasDatabaseName("ix_tbl_exam_question_option_exam_questions_id");
 
                     b.HasIndex("QuestionId")
                         .HasDatabaseName("ix_tbl_exam_question_option_question_id");
@@ -633,6 +646,10 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("created_by_id");
 
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("end_time");
+
                     b.Property<Guid>("ExamId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("exam_id");
@@ -661,6 +678,10 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("modified_by");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("start_time");
 
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uniqueidentifier")
@@ -994,7 +1015,7 @@ namespace Infrastructure.Migrations
                         .HasConstraintName("fk_tbl_exam_answer_tbl_exam_questions_question_id");
 
                     b.HasOne("Domain.Exams.ExamsSubmission", "Submission")
-                        .WithMany()
+                        .WithMany("Answers")
                         .HasForeignKey("SubmissionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
@@ -1007,13 +1028,8 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Exams.ExamQuestionOption", b =>
                 {
-                    b.HasOne("Domain.Exams.ExamQuestions", null)
-                        .WithMany("Options")
-                        .HasForeignKey("ExamQuestionsId")
-                        .HasConstraintName("fk_tbl_exam_question_option_tbl_exam_questions_exam_questions_id");
-
                     b.HasOne("Domain.Exams.ExamQuestions", "Question")
-                        .WithMany()
+                        .WithMany("Options")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
@@ -1134,6 +1150,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Exams.ExamQuestions", b =>
                 {
                     b.Navigation("Options");
+                });
+
+            modelBuilder.Entity("Domain.Exams.ExamsSubmission", b =>
+                {
+                    b.Navigation("Answers");
                 });
 #pragma warning restore 612, 618
         }

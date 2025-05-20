@@ -12,9 +12,15 @@ public sealed class ExamsSubmission : Entity, IAuditableEntity
     public Users.User Student { get; set; }
     public Guid ExamId { get; set; }
     public Exams Exams { get; set; }
+    public ICollection<ExamAnswer> Answers { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? GradedAt { get; set; }
+    public DateTime StartTime { get; set; }
+    public DateTime EndTime { get; set; }
+
+    [NotMapped]
+    public TimeSpan Duration => EndTime - StartTime;
     public Guid GradedById { get; set; }
     public Users.User GradedBy { get; set; }
     public double? TotalScore { get; set; }

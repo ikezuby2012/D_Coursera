@@ -3,7 +3,6 @@
 namespace Application.Assignments.GetAllAssignment;
 public class GetAllAssignmentQueryValidator : AbstractValidator<GetAllAssignmentQuery>
 {
-
     public GetAllAssignmentQueryValidator()
     {
         // Validate PageSize

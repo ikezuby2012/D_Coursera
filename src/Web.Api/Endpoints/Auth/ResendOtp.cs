@@ -1,5 +1,4 @@
-﻿
-using System.Net;
+﻿using System.Net;
 using Application.Auth.ResendOTP;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

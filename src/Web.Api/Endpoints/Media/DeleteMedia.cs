@@ -1,9 +1,10 @@
-﻿using System.Net;
-using Application.Abstractions.Authentication;
+﻿using Application.Abstractions.Authentication;
 using Application.Media.DeleteMediaById;
 using MediatR;
 using SharedKernel;
 using Web.Api.EndpointFilter;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Media;
 
@@ -15,16 +16,9 @@ internal sealed class DeleteMedia : IEndpoint
         {
             var query = new DeleteMediaByIdCommand(Id);
 
-            try
-            {
-                await sender.Send(query, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(ApiResponse<string>.Error(ex.Message.ToString(), (int)HttpStatusCode.InternalServerError));
-            }
+            Result result = await sender.Send(query, cancellationToken);
 
-            return Results.Ok(ApiResponse<string>.Success($"{Id}", "media deleted successfully for this course!"));
+            return result.Match(() => Results.NoContent(), error => CustomResults.Problem(result));
         }).WithTags(Tags.Media)
         .RequireAuthorization()
         .AddEndpointFilter<VerifiedUserFilter>();

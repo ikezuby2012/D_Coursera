@@ -14,7 +14,13 @@ internal sealed class ExamAnswerConfiguration : IEntityTypeConfiguration<ExamAns
         builder.Property(e => e.AnswerText)
              .HasMaxLength(4000);
 
+        builder.Property(e => e.OptionLabel).IsRequired(false)
+             .HasMaxLength(4000);
+
         builder.Property(e => e.IsCorrect)
+            .HasDefaultValue(false);
+
+        builder.Property(e => e.IsGraded)
             .HasDefaultValue(false);
 
         builder.Property(e => e.CreatedAt).IsRequired();
@@ -24,6 +30,9 @@ internal sealed class ExamAnswerConfiguration : IEntityTypeConfiguration<ExamAns
         builder.Property(e => e.CreatedById)
             .HasMaxLength(450);
 
+        builder.Property(e => e.GradedById)
+           .HasMaxLength(150);
+
         builder.Property(e => e.ModifiedBy)
             .HasMaxLength(450);
 
@@ -31,7 +40,7 @@ internal sealed class ExamAnswerConfiguration : IEntityTypeConfiguration<ExamAns
             .HasDefaultValue(false);
 
         builder.HasOne(e => e.Submission)
-               .WithMany()
+               .WithMany(a => a.Answers)
                .HasForeignKey(e => e.SubmissionId)
                .OnDelete(DeleteBehavior.Restrict);
 

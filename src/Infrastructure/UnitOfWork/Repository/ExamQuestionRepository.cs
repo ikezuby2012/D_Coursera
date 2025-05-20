@@ -20,4 +20,9 @@ public class ExamQuestionRepository : Repository<ExamQuestions>, IExamQuestionsR
     {
         _db.ExamQuestions.Update(examQuestion);
     }
+
+    public void UpdateRangeAsync(IEnumerable<ExamQuestions> examQuestions, CancellationToken cancellationToken)
+    {
+        _db.Set<ExamQuestions>().UpdateRange(examQuestions);
+    }
 }
