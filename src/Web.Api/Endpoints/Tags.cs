@@ -10,4 +10,5 @@ public static class Tags
     public const string Media = "Media";
     public const string Assignment = "Assignment";
     public const string SubmitAssignment = "SubmitAssignment";
+    public const string Enrollment = "Enrollment";
 }

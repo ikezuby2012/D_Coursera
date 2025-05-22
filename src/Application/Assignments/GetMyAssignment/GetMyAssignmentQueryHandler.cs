@@ -32,13 +32,13 @@ internal sealed class GetMyAssignmentQueryHandler(IUnitOfWork unitOfWork, IUserC
 
         int totalItems = await query.CountAsync(cancellationToken);
 
-        List<AssigmentResponseDto> media = await query.OrderByDescending(m => m.CreatedAt)
+        List<AssigmentResponseDto> assignments = await query.OrderByDescending(m => m.CreatedAt)
            .Skip((request.pageNumber - 1) * request.PageSize)
            .Take(request.PageSize).Select(m => (AssigmentResponseDto)m).ToListAsync(cancellationToken);
 
         return Result.Success(new GetAllAssignmentResponse
         {
-            data = media,
+            data = assignments,
             PageNumber = request.pageNumber,
             PageSize = request.PageSize,
             TotalItems = totalItems,

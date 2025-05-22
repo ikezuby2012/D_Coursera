@@ -400,3 +400,4 @@ FodyWeavers.xsd
 .containers/
 
 src/Web.Api/appsettings.Development.json
+src/Web.Api/appsettings.json

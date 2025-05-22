@@ -4,6 +4,7 @@ using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250520163702_updatedCourseTableWithCapacity")]
+    partial class updatedCourseTableWithCapacity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -300,110 +303,6 @@ namespace Infrastructure.Migrations
                         .HasDatabaseName("ix_tbl_courses_instructor_id");
 
                     b.ToTable("TBL_COURSES", "dbo");
-                });
-
-            modelBuilder.Entity("Domain.Enrollment.Enrollment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
-
-                    b.Property<Guid>("CourseId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("course_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedById")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("created_by_id");
-
-                    b.Property<bool>("IsSoftDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_soft_deleted");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("modified_by");
-
-                    b.Property<int>("StatusId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1)
-                        .HasColumnName("status_id");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("updated_at");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_tbl_enrollment");
-
-                    b.HasIndex("StatusId")
-                        .HasDatabaseName("ix_tbl_enrollment_status_id");
-
-                    b.HasIndex("UserId")
-                        .HasDatabaseName("ix_tbl_enrollment_user_id");
-
-                    b.HasIndex("CourseId", "UserId")
-                        .IsUnique()
-                        .HasDatabaseName("ix_tbl_enrollment_course_id_user_id");
-
-                    b.ToTable("TBL_ENROLLMENT", "dbo");
-                });
-
-            modelBuilder.Entity("Domain.Enrollment.EnrollmentStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id")
-                        .HasName("pk_tbl_enrollment_status");
-
-                    b.ToTable("TBL_ENROLLMENT_STATUS", "dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Pending"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Approved"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Rejected"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Completed"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Exams.ExamAnswer", b =>
@@ -1124,36 +1023,6 @@ namespace Infrastructure.Migrations
                         .HasConstraintName("fk_tbl_courses_tbl_users_instructor_id");
 
                     b.Navigation("Instructor");
-                });
-
-            modelBuilder.Entity("Domain.Enrollment.Enrollment", b =>
-                {
-                    b.HasOne("Domain.Course.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_tbl_enrollment_tbl_courses_course_id");
-
-                    b.HasOne("Domain.Enrollment.EnrollmentStatus", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_tbl_enrollment_enrollment_status_status_id");
-
-                    b.HasOne("Domain.Users.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_tbl_enrollment_tbl_users_user_id");
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Status");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Exams.ExamAnswer", b =>

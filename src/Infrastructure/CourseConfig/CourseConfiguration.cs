@@ -21,6 +21,12 @@ internal sealed class CourseConfiguration : IEntityTypeConfiguration<Course>
             .IsRequired()
             .HasMaxLength(50);
 
+        builder.Property(c => c.Prerequisites).HasMaxLength(4000).IsRequired(false);
+
+        builder.Property(c => c.Capacity).HasDefaultValue(500).IsRequired(false);
+
+        builder.Property(c => c.IsPaid).HasDefaultValue(false);
+
         builder.Property(c => c.Availability)
             .IsRequired()
             .HasDefaultValue(true);

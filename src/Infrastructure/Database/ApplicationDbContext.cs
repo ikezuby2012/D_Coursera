@@ -1,14 +1,18 @@
-﻿using System.Linq.Expressions;
+﻿using System.Data;
+using System.Linq.Expressions;
+using System.Threading;
 using Application.Abstractions.Data;
 using Domain.Assignments;
 using Domain.AssignmentSubmission;
 using Domain.Common;
 using Domain.Course;
+using Domain.Enrollment;
 using Domain.Exams;
 using Domain.Media;
 using Domain.Todos;
 using Domain.Users;
 using MediatR;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using SharedKernel;
@@ -29,6 +33,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<ExamQuestionOption> ExamQuestionOptions { get; set; }
     public DbSet<ExamsSubmission> ExamsSubmissions { get; set; }
     public DbSet<ExamAnswer> ExamAnswers { get; set; }
+    public DbSet<Enrollment> Enrollment { get; set; }
     public DatabaseFacade DatabaseFacade => base.Database;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -93,5 +98,38 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
         {
             await publisher.Publish(domainEvent);
         }
+    }
+
+    public void GetAppLock(string appLockId)
+    {
+        string sql = "EXEC sp_getapplock @Resource, 'Exclusive';";
+        var parameter = new SqlParameter("@Resource", SqlDbType.NVarChar, 255)
+        {
+            Value = appLockId
+        };
+
+        Database.ExecuteSqlRaw(sql, parameter);
+    }
+
+    public async Task GetAppLockAsync(string appLockId, int timeOut, CancellationToken cancellationToken)
+    {
+        const string sql = @"
+        DECLARE @result INT;
+        EXEC @result = sp_getapplock 
+            @Resource = @Resource,
+            @LockMode = 'Exclusive',
+            @LockOwner = 'Transaction',
+            @LockTimeout = @Timeout;
+        
+        IF @result < 0
+            THROW 50000, 'Could not acquire application lock', 1;";
+
+        SqlParameter[] parameters = new[]
+        {
+            new SqlParameter("@Resource", SqlDbType.NVarChar) { Value = appLockId },
+            new SqlParameter("@Timeout", SqlDbType.Int) { Value = timeOut }
+        };
+
+        await Database.ExecuteSqlRawAsync(sql, parameters, cancellationToken);
     }
 }

@@ -13,6 +13,9 @@ public sealed class Course : Entity, IAuditableEntity
     public string Description { get; set; }
     public string Duration { get; set; }
     public bool Availability { get; set; }
+    public int? Capacity { get; set; }
+    public string? Prerequisites { get; set; }
+    public bool IsPaid { get; set; }
     public Guid InstructorId { get; set; }
     public User Instructor { get; set; }
     public ICollection<Domain.Media.Media> MediaUrls { get; set; }

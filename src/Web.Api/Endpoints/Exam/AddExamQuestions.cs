@@ -19,7 +19,7 @@ internal sealed class AddExamQuestions : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPut("api/v1/exam/{Id:guid}/questions", async (Guid Id, [FromBody] Request payload, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapPost("api/v1/exam/{Id:guid}/questions", async (Guid Id, [FromBody] Request payload, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var command = new CreateExamQuestionCommand(Id, payload.questions, payload.ExamTypeId);
 
@@ -27,6 +27,5 @@ internal sealed class AddExamQuestions : IEndpoint
 
             return result.Match(value => Results.Ok(ApiResponse<CreatedExamResponseDto>.Success(value, "Exam questions updated successfully")), error => CustomResults.Problem(error));
         }).WithTags(Tags.Exam).RequireAuthorization().HasRole("User");
-
     }
 }

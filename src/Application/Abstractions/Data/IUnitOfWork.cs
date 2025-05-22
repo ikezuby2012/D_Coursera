@@ -15,4 +15,5 @@ public interface IUnitOfWork
     IExamQuestionOptionsRepository ExamQuestionOptionsRepository { get; }
     IExamSubmissionRepository ExamSubmissionRepository { get; }
     IExamAnswerRepository ExamAnswerRepository { get; }
+    IEnrollmentRepository EnrollmentRepository { get; }
 }
