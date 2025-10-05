@@ -13,7 +13,7 @@ internal sealed class GetMyCourses : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/v1/course/me", async (ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapGet("course/me", async (ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var command = new GetMyCoursesCommand();
 

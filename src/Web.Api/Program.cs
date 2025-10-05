@@ -1,5 +1,7 @@
 using System.Reflection;
 using Application;
+using Asp.Versioning;
+using Asp.Versioning.Builder;
 using HealthChecks.UI.Client;
 using Infrastructure;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -13,6 +15,20 @@ builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configu
 
 builder.Services.AddSwaggerGenWithAuth();
 
+builder.Services.AddHttpClient();
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.ReportApiVersions = true;
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+})
+.AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
+
 builder.Services
     .AddApplication()
     .AddPresentation()
@@ -23,12 +39,21 @@ builder.Services.AddAntiforgery();
 
 WebApplication app = builder.Build();
 
-app.MapEndpoints();
+ApiVersionSet apiVersionSet = app.NewApiVersionSet()
+    .HasApiVersion(new ApiVersion(1))
+    .ReportApiVersions()
+    .Build();
+
+RouteGroupBuilder versionedGroup = app
+    .MapGroup("api/v{version:apiVersion}")
+    .WithApiVersionSet(apiVersionSet);
+
+app.MapEndpoints(versionedGroup);
+
+app.UseSwaggerWithUi();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwaggerWithUi();
-
     app.ApplyMigrations();
 }
 
@@ -46,6 +71,8 @@ app.UseExceptionHandler();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.MapGet("/api/ping", () => "Hello from D Coursera Learn API!");
 
 // Enable form file uploads
 app.Use(async (context, next) =>

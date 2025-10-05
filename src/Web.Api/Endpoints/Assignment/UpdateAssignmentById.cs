@@ -23,7 +23,7 @@ internal sealed class UpdateAssignmentById : IEndpoint
     }
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPut("api/v1/assignment/{id:guid}", async (Guid Id, Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapPut("assignment/{id:guid}", async (Guid Id, Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             Result<AssigmentResponseDto> result;
 

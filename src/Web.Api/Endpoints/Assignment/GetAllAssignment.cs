@@ -13,7 +13,7 @@ internal sealed class GetAllAssignment : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/v1/assignment", async (ISender sender, IUserContext userContext, CancellationToken cancellationToken,
+        app.MapGet("assignment", async (ISender sender, IUserContext userContext, CancellationToken cancellationToken,
            [FromQuery] int pageSize = 1000,
            [FromQuery] int pageNumber = 1,
            [FromQuery] DateTime? dateFrom = null,

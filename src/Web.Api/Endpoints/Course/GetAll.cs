@@ -12,7 +12,7 @@ internal sealed class GetAll : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/v1/course", async (ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapGet("course", async (ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var command = new GetAllCourseCommand();
 

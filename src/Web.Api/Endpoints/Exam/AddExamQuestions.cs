@@ -19,7 +19,7 @@ internal sealed class AddExamQuestions : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/v1/exam/{Id:guid}/questions", async (Guid Id, [FromBody] Request payload, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapPost("exam/{Id:guid}/questions", async (Guid Id, [FromBody] Request payload, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var command = new CreateExamQuestionCommand(Id, payload.questions, payload.ExamTypeId);
 

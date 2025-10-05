@@ -15,7 +15,7 @@ internal sealed class UpdateEnrolledCourseStatus : IEndpoint
     internal sealed record Request(string Status);
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPut("api/v1/enrollments/{Id:guid}", async (Guid Id, [FromBody] Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapPut("enrollments/{Id:guid}", async (Guid Id, [FromBody] Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var command = new UpdateEnrollCourseStatusCommand(Id, request.Status);
 

@@ -23,7 +23,7 @@ internal sealed class CreateAssignment : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/v1/assignment", async (Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapPost("assignment", async (Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var command = new CreateAssigmentCommand(request.title, request.description, request.CollectionName, request.CourseId, request.DueDate, request.MaxScore, request.AssignmentTypeId);
 

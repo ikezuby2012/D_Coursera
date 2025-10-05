@@ -12,7 +12,7 @@ internal sealed class GetAllMedia : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/v1/media", async (
+        app.MapGet("media", async (
             ISender sender, CancellationToken cancellationToken,
             [FromQuery] int pageSize = 1000,
             [FromQuery] int pageNumber = 0,

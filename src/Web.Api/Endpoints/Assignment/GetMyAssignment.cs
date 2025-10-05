@@ -14,7 +14,7 @@ internal sealed class GetMyAssignment : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/v1/assignment/me", async (ISender sender, IUserContext userContext, CancellationToken cancellationToken,
+        app.MapGet("assignment/me", async (ISender sender, IUserContext userContext, CancellationToken cancellationToken,
             [FromQuery] int pageSize = 1000,
             [FromQuery] int pageNumber = 0,
             [FromQuery] DateTime? dateFrom = null,

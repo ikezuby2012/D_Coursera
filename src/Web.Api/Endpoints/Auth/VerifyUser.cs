@@ -1,8 +1,9 @@
-﻿using System.Net;
-using Application.Auth.VerifyUser;
+﻿using Application.Auth.VerifyUser;
 using Domain.DTO.Auth;
 using MediatR;
 using SharedKernel;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Auth;
 
@@ -12,17 +13,12 @@ internal sealed class VerifyUser : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/v1/auth/verify-user", async (Request request, ISender sender, CancellationToken cancellationToken) =>
+        app.MapPost("auth/verify-user", async (Request request, ISender sender, CancellationToken cancellationToken) =>
         {
             var command = new VerifyUserCommand(request.Email, request.Otp);
             Result<CreatedUserDto> result = await sender.Send(command, cancellationToken);
 
-            if (!result.IsSuccess)
-            {
-                return Results.BadRequest(ApiResponse<CreatedUserDto>.Error(result.Error.ToString(), (int)HttpStatusCode.BadRequest));
-            }
-
-            return Results.Ok(ApiResponse<CreatedUserDto>.Success(result.Value, "User verified successfully"));
+            return result.Match(value => Results.Ok(ApiResponse<CreatedUserDto>.Success(value, $"User verified successfully")), error => CustomResults.Problem(error));
         }).WithTags(Tags.Auth);
     }
 }

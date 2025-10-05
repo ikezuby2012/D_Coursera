@@ -13,7 +13,7 @@ internal sealed class DeleteEnrolledCourse : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapDelete("api/v1/enrollments/{Id:guid}", async (Guid Id, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapDelete("enrollments/{Id:guid}", async (Guid Id, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var command = new DeleteEnrollCourseCommand(Id);
 

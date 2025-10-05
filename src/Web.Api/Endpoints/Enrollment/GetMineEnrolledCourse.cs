@@ -14,7 +14,7 @@ internal sealed class GetMineEnrolledCourse : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/v1/enrollments/me", async (ISender sender, IUserContext userContext, CancellationToken cancellationToken,
+        app.MapGet("enrollments/me", async (ISender sender, IUserContext userContext, CancellationToken cancellationToken,
             [FromQuery] int pageSize = 1000,
             [FromQuery] int pageNumber = 0,
             [FromQuery] DateTime? dateFrom = null,

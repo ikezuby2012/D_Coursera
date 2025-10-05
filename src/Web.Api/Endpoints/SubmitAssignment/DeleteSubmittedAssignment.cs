@@ -12,7 +12,7 @@ internal sealed class DeleteSubmittedAssignment : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapDelete("api/v1/submit-assignment/{id:guid}", async (Guid Id, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapDelete("submit-assignment/{id:guid}", async (Guid Id, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var query = new DeleteAssignmentSubmissionByIdCommand(Id);
 

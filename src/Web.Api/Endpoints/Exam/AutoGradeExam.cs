@@ -20,7 +20,7 @@ internal sealed class AutoGradeExam : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/v1/exam/auto-submission/{Id:guid}", async (Guid Id, [FromBody] Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapPost("exam/auto-submission/{Id:guid}", async (Guid Id, [FromBody] Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var command = new AutoGradeExamSubmissionCommand(Id, request.StartTime, request.EndTime, request.AnswersScripts);
 

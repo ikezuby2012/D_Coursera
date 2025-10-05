@@ -4,6 +4,8 @@ using Domain.DTO.Auth;
 using Domain.Users;
 using MediatR;
 using SharedKernel;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Auth;
 
@@ -13,18 +15,13 @@ internal sealed class Login : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/v1/auth/login", async (Request request, ISender sender, CancellationToken cancellationToken) =>
+        app.MapPost("auth/login", async (Request request, ISender sender, CancellationToken cancellationToken) =>
         {
             var command = new LoginUserCommand(request.Email, request.Password);
 
             Result<LoginSuccessDto> result = await sender.Send(command, cancellationToken);
 
-            if (!result.IsSuccess)
-            {
-                return Results.BadRequest(ApiResponse<LoginSuccessDto>.Error(result.Error.ToString(), (int)HttpStatusCode.BadRequest));
-            }
-
-            return Results.Ok(ApiResponse<LoginSuccessDto>.Success(result.Value, "User loggedin successfully"));
+            return result.Match(value => Results.Ok(ApiResponse<LoginSuccessDto>.Success(value, $"User loggedin successfully")), error => CustomResults.Problem(error));
         }).WithTags(Tags.Auth);
     }
 }

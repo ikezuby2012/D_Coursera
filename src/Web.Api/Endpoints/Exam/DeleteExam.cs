@@ -11,7 +11,7 @@ internal sealed class DeleteExam : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapDelete("api/v1/exam/{id:guid}", async (Guid Id, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapDelete("exam/{id:guid}", async (Guid Id, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var query = new DeleteExamCommand(Id);
 

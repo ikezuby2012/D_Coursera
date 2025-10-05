@@ -12,7 +12,7 @@ internal sealed class DeleteMedia : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapDelete("api/v1/media/{id:guid}", async (Guid Id, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapDelete("media/{id:guid}", async (Guid Id, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var query = new DeleteMediaByIdCommand(Id);
 

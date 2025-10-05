@@ -14,7 +14,7 @@ internal sealed class GetExamQuestions : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/v1/exam/{id:guid}/questions", async (Guid Id, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapGet("exam/{id:guid}/questions", async (Guid Id, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var query = new GetExamQuestionQuery(Id);
 

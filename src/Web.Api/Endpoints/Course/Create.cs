@@ -20,7 +20,7 @@ internal sealed class Create : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/v1/course", async (Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapPost("course", async (Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var command = new CreateCourseCommand(title: request.Title, Description: request.Description, Duration: request.Duration, Availability: request.Availability);
 

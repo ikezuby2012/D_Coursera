@@ -11,7 +11,7 @@ internal sealed class CreateCourseMedia : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/v1/media/course",
+        app.MapPost("media/course",
             async (IFormFileCollection Files, [FromForm] string CourseId, [FromForm] string CollectionName, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             if (!Guid.TryParse(CourseId, out Guid courseId))

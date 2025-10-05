@@ -21,7 +21,7 @@ internal sealed class SubmitAssignment : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/v1/submit-assignment", async (
+        app.MapPost("submit-assignment", async (
             [FromForm] Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken
             ) =>
         {

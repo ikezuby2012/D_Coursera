@@ -12,7 +12,7 @@ internal sealed class GetAllSubmittedAssignment : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/v1/submit-assignment", async (
+        app.MapGet("submit-assignment", async (
             ISender sender, CancellationToken cancellationToken,
             [FromQuery] int PageSize = 1000,
             [FromQuery] int pageNumber = 0,

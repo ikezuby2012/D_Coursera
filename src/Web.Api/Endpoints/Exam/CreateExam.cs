@@ -25,7 +25,7 @@ internal sealed class CreateExam : IEndpoint
     }
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/v1/exam", async (Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapPost("exam", async (Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var command = new CreateExamCommand(
                 request.Title,

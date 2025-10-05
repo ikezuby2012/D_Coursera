@@ -14,7 +14,7 @@ internal sealed class UpdateCourse : IEndpoint
     internal sealed record Request(Guid Id, string title, string Description, string Duration, bool Availability, double price);
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPatch("api/v1/course/{Id:guid}", async (Guid Id, Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapPatch("course/{Id:guid}", async (Guid Id, Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var command = new UpdateCourseByIdCommand(Id, request.title, request.Description, request.Duration, request.Availability, request.price);
 

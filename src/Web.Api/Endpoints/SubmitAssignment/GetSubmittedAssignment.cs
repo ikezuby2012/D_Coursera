@@ -13,7 +13,7 @@ internal sealed class GetSubmittedAssignment : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/v1/submit-assignment/{Id:guid}", async (Guid Id, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapGet("submit-assignment/{Id:guid}", async (Guid Id, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var query = new GetAssignmentSubmissionByIdQuery(Id);
 

@@ -24,7 +24,7 @@ internal sealed class UpdateExam : IEndpoint
     }
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPut("api/v1/exam/{Id:guid}", async (Guid Id, [FromBody] Request payload, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapPut("exam/{Id:guid}", async (Guid Id, [FromBody] Request payload, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
             var command = new UpdateExamCommand(
                 Id,

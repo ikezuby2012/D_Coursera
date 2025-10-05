@@ -13,7 +13,7 @@ internal sealed class UpdateMedia : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPut("api/v1/media/{Id:guid}", async (Guid Id, [FromQuery] Guid CourseId, IFormFileCollection Files, ISender sender, CancellationToken cancellationToken, [FromForm] string CollectionName = "") =>
+        app.MapPut("media/{Id:guid}", async (Guid Id, [FromQuery] Guid CourseId, IFormFileCollection Files, ISender sender, CancellationToken cancellationToken, [FromForm] string CollectionName = "") =>
         {
             var query = new UpdateMediaByIdCommand(Id, Files, CourseId, CollectionName);
 

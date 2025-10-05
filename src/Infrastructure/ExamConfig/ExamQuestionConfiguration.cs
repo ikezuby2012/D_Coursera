@@ -31,11 +31,11 @@ internal sealed class ExamQuestionConfiguration : IEntityTypeConfiguration<ExamQ
         builder.HasOne(e => e.Exam)
                 .WithMany()
                 .HasForeignKey(e => e.ExamId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(e => e.Type).WithMany()
             .HasForeignKey(e => e.TypeId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(e => e.Options).WithOne(e => e.Question).HasForeignKey(e => e.QuestionId).OnDelete(DeleteBehavior.Restrict);
 

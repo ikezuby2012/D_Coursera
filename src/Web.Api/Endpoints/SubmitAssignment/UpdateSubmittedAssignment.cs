@@ -14,7 +14,7 @@ internal sealed class UpdateSubmittedAssignment : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPut("api/v1/submit-assignment/{Id:guid}", async (
+        app.MapPut("submit-assignment/{Id:guid}", async (
             Guid Id, [FromForm] Guid AssignmentId, [FromForm] string submissionText, [FromForm] string feedback, ISender sender, IUserContext userContext, CancellationToken cancellationToken, IFormFile? file) =>
         {
             var command = new UpdateAssignmentSubmissionByIdCommand(Id, AssignmentId, submissionText, file, feedback);

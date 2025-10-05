@@ -2,7 +2,6 @@
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Domain.DTO.Auth;
-using Domain.UserRole;
 using Domain.Users;
 using SharedKernel;
 
@@ -16,6 +15,7 @@ internal sealed class RegisterUserCommandHandler(IUnitOfWork unitOfWork, IPasswo
         {
             return Result.Failure<CreatedUserDto>(UserErrors.EmailNotUnique);
         }
+
 
         // generate otp
         string userOtp = otpHandler.GenerateOtp();
@@ -31,7 +31,7 @@ internal sealed class RegisterUserCommandHandler(IUnitOfWork unitOfWork, IPasswo
             IsSoftDeleted = false,
             IsActive = true,
             isVerifed = false,
-            RoleId = UserRoles.User.Id,
+            RoleId = command.RoleId, //UserRoles.User.Id,
             CreatedAt = DateTime.UtcNow,
         };
 
