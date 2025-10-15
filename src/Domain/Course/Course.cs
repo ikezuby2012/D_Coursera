@@ -16,6 +16,12 @@ public sealed class Course : Entity, IAuditableEntity
     public int? Capacity { get; set; }
     public string? Prerequisites { get; set; }
     public bool IsPaid { get; set; }
+    public string Category { get; set; }
+    public string CourseLevel { get; set; }
+    public string Language { get; set; }
+    public string? TimeZone { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? EndDate { get; set; }
     public Guid InstructorId { get; set; }
     public User Instructor { get; set; }
     public ICollection<Domain.Media.Media> MediaUrls { get; set; }

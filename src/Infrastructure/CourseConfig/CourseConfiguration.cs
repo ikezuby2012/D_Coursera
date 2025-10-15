@@ -27,6 +27,26 @@ internal sealed class CourseConfiguration : IEntityTypeConfiguration<Course>
 
         builder.Property(c => c.IsPaid).HasDefaultValue(false);
 
+        builder.Property(e => e.Category)
+               .IsRequired() // or .IsRequired(false) if nullable
+               .HasMaxLength(100); // adjust as needed
+
+        builder.Property(e => e.CourseLevel)
+               .IsRequired()
+               .HasMaxLength(50);
+
+        builder.Property(e => e.Language)
+               .IsRequired()
+               .HasMaxLength(50);
+
+        builder.Property(e => e.TimeZone)
+               .IsRequired()
+               .HasMaxLength(200); // e.g., "UTC, EST, PST" — consider normalizing later
+
+        // DateTime? properties are optional by default, so no need for IsRequired(false)
+        builder.Property(e => e.StartDate);
+        builder.Property(e => e.EndDate);
+
         builder.Property(c => c.Availability)
             .IsRequired()
             .HasDefaultValue(true);

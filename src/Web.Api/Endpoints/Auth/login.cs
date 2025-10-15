@@ -1,7 +1,5 @@
-﻿using System.Net;
-using Application.Auth.Login;
+﻿using Application.Auth.Login;
 using Domain.DTO.Auth;
-using Domain.Users;
 using MediatR;
 using SharedKernel;
 using Web.Api.Extensions;

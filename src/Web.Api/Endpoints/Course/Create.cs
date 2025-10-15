@@ -16,13 +16,19 @@ internal sealed class Create : IEndpoint
         public string Description { get; set; }
         public string Duration { get; set; }
         public bool Availability { get; set; }
+        public string Category { get; set; }
+        public string CourseLevel { get; set; }
+        public string Language { get; set; }
+        public string? TimeZone { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost("course", async (Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
         {
-            var command = new CreateCourseCommand(title: request.Title, Description: request.Description, Duration: request.Duration, Availability: request.Availability);
+            var command = new CreateCourseCommand(title: request.Title, Description: request.Description, Duration: request.Duration, Availability: request.Availability, request.Category, request.CourseLevel, request.Language, request.TimeZone ?? "UTC+1", request.StartDate, request.EndDate);
 
             Result<CreatedCourseDto> result;
 

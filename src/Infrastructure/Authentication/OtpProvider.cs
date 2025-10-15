@@ -1,12 +1,12 @@
 ﻿using System.Globalization;
+using System.Security.Cryptography;
 using Application.Abstractions.Authentication;
 
 namespace Infrastructure.Authentication;
 public sealed class OtpProvider : IOtpHandler, IDisposable
 {
     private const int OTP_LENGTH = 6;
-    private static readonly ThreadLocal<System.Security.Cryptography.RandomNumberGenerator> crng = new ThreadLocal<System.Security.Cryptography.RandomNumberGenerator>(System.Security.Cryptography.RandomNumberGenerator.Create);
-    private static readonly ThreadLocal<byte[]> bytes = new ThreadLocal<byte[]>(() => new byte[sizeof(int)]);
+
 
     public string GenerateOtp()
     {
@@ -16,12 +16,12 @@ public sealed class OtpProvider : IOtpHandler, IDisposable
     }
 
     #region Methods
-    private static int NextInt()
-    {
-        crng.Value!.GetBytes(bytes.Value!);
-        return BitConverter.ToInt32(bytes.Value!, 0) & int.MaxValue;
-    }
-
+    private static int NextInt() =>
+         RandomNumberGenerator.GetInt32(int.MaxValue) switch
+         {
+             var n when n == int.MaxValue - 1 => int.MaxValue,
+             var n => n
+         };
     public static double NextDouble()
     {
         while (true)
@@ -60,12 +60,12 @@ public sealed class OtpProvider : IOtpHandler, IDisposable
 
         if (disposing)
         {
-            if (crng.Value! != null)
-            {
-                crng.Value.Dispose();
-            }
-            crng.Dispose();
-            bytes.Dispose();
+            //if (crng.Value! != null)
+            //{
+            //    crng.Value.Dispose();
+            //}
+            //crng.Dispose();
+            //bytes.Dispose();
         }
 
         disposed = true;
