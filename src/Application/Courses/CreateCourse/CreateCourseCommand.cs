@@ -1,5 +1,17 @@
 ﻿using Application.Abstractions.Messaging;
 using Domain.DTO.Courses;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Courses.CreateCourse;
-public sealed record CreateCourseCommand(string title, string Description, string Duration, bool Availability) : ICommand<CreatedCourseDto>;
+public sealed record CreateCourseCommand(
+    string title,
+    string Description,
+    string Duration,
+    bool Availability,
+    string Category,
+    string CourseLevel,
+    string Language,
+    string TimeZones,
+    DateTime? StartDate,
+    DateTime? EndDate,
+    IEnumerable<IFormFile> files) : ICommand<CreatedCourseDto>;

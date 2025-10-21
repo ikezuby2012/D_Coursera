@@ -2,6 +2,7 @@
 using Application.Courses.CreateCourse;
 using Domain.DTO.Courses;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
@@ -26,16 +27,21 @@ internal sealed class Create : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("course", async (Request request, ISender sender, IUserContext userContext, CancellationToken cancellationToken) =>
+        app.MapPost("course", async (
+            IFormFileCollection Files,
+            [FromForm] Request request,
+            ISender sender,
+            IUserContext userContext,
+            CancellationToken cancellationToken) =>
         {
-            var command = new CreateCourseCommand(title: request.Title, Description: request.Description, Duration: request.Duration, Availability: request.Availability, request.Category, request.CourseLevel, request.Language, request.TimeZone ?? "UTC+1", request.StartDate, request.EndDate);
+            var command = new CreateCourseCommand(title: request.Title, Description: request.Description, Duration: request.Duration, Availability: request.Availability, request.Category, request.CourseLevel, request.Language, request.TimeZone ?? "UTC+1", request.StartDate, request.EndDate, Files);
 
             Result<CreatedCourseDto> result;
 
             result = await sender.Send(command, cancellationToken);
 
             return result.Match(value => Results.Created($"/courses/{result.Value.Id}", ApiResponse<CreatedCourseDto>.Success(value, "Course created successfully")), error => CustomResults.Problem(error));
-        }).WithTags(Tags.Course).RequireAuthorization().HasRole("Instructor");
+        }).WithTags(Tags.Course).RequireAuthorization().HasRole(Domain.UserRole.UserRoles.Instructor.Name).DisableAntiforgery();
 
     }
 }

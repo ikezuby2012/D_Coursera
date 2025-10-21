@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Linq.Expressions;
-using System.Threading;
 using Application.Abstractions.Data;
 using Domain.Assignments;
 using Domain.AssignmentSubmission;
@@ -34,6 +33,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<ExamsSubmission> ExamsSubmissions { get; set; }
     public DbSet<ExamAnswer> ExamAnswers { get; set; }
     public DbSet<Enrollment> Enrollment { get; set; }
+    public DbSet<CourseTimelineMedia> CourseTimelineMedias { get; set; }
     public DatabaseFacade DatabaseFacade => base.Database;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

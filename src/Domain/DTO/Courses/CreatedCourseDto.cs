@@ -14,6 +14,12 @@ public class CreatedCourseDto
     public string? CreatedById { get; set; }
     public string? ModifiedBy { get; set; }
     public bool IsSoftDeleted { get; set; }
+    public string Category { get; set; }
+    public string CourseLevel { get; set; }
+    public string Language { get; set; }
+    public string? TimeZone { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? EndDate { get; set; }
 
     public static explicit operator CreatedCourseDto(Domain.Course.Course course) => new CreatedCourseDto
     {
@@ -27,6 +33,12 @@ public class CreatedCourseDto
         UpdatedAt = course.UpdatedAt,
         CreatedById = course.CreatedById,
         ModifiedBy = course.ModifiedBy,
-        IsSoftDeleted = course.IsSoftDeleted
+        IsSoftDeleted = course.IsSoftDeleted,
+        Category = course.Category,
+        CourseLevel = course.CourseLevel,
+        Language = course.Language,
+        TimeZone = course.TimeZone,
+        StartDate = course.StartDate,
+        EndDate = course.EndDate,
     };
 }

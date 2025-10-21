@@ -16,4 +16,5 @@ public interface IUnitOfWork
     IExamSubmissionRepository ExamSubmissionRepository { get; }
     IExamAnswerRepository ExamAnswerRepository { get; }
     IEnrollmentRepository EnrollmentRepository { get; }
+    ICourseTimelineMediaRepository CourseTimelineMediaRepository { get; }
 }

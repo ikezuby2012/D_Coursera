@@ -20,6 +20,7 @@ public class UnitOfWork : IUnitOfWork
     public IExamSubmissionRepository ExamSubmissionRepository { get; init; }
     public IExamAnswerRepository ExamAnswerRepository { get; init; }
     public IEnrollmentRepository EnrollmentRepository { get; init; }
+    public ICourseTimelineMediaRepository CourseTimelineMediaRepository { get; init; }
 
     public UnitOfWork(ApplicationDbContext db)
     {
@@ -35,6 +36,7 @@ public class UnitOfWork : IUnitOfWork
         ExamSubmissionRepository = new ExamSubmissionRepository(_db);
         ExamAnswerRepository = new ExamAnswerRepository(_db);
         EnrollmentRepository = new EnrollmentRepository(_db);
+        CourseTimelineMediaRepository = new CourseTimelineMediaRepository(_db);
     }
 
     public void Save()
