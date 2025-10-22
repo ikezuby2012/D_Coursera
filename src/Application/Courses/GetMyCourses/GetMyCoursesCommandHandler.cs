@@ -4,6 +4,7 @@ using Application.Abstractions.Messaging;
 using Domain.Auth;
 using Domain.Course;
 using Domain.DTO.Courses;
+using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
 namespace Application.Courses.GetMyCourses;
@@ -19,7 +20,7 @@ internal sealed class GetMyCoursesCommandHandler(IUnitOfWork unitOfWork, IUserCo
         }
 
         var userIdGuid = Guid.Parse(userId);
-        IEnumerable<Course> courses = await unitOfWork.CourseRepository.FindAsync(x => x.InstructorId == userIdGuid, cancellationToken: cancellationToken);
+        IEnumerable<Course> courses = await unitOfWork.CourseRepository.QueryAble().Include(x => x.TimelineMedias).Where(x => x.InstructorId == userIdGuid).OrderByDescending(x => x.CreatedAt).ToListAsync(cancellationToken);//.FindAsync(x => x.InstructorId == userIdGuid, cancellationToken: cancellationToken);
 
         var myCourses = courses.Select(x => (CreatedCourseDto)x).ToList();
 

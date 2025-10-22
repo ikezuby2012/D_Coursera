@@ -20,6 +20,7 @@ public class CreatedCourseDto
     public string? TimeZone { get; set; }
     public DateTime? StartDate { get; set; }
     public DateTime? EndDate { get; set; }
+    public List<TimeLineMedia>? TimeLineMedias { get; set; } = new();
 
     public static explicit operator CreatedCourseDto(Domain.Course.Course course) => new CreatedCourseDto
     {
@@ -40,5 +41,16 @@ public class CreatedCourseDto
         TimeZone = course.TimeZone,
         StartDate = course.StartDate,
         EndDate = course.EndDate,
+        TimeLineMedias = course.TimelineMedias?.Select(x => new TimeLineMedia
+        {
+            MediaUrl = x.MediaUrl,
+            CreatedAt = x.CreatedAt
+        }).ToList(),
     };
+}
+
+public class TimeLineMedia
+{
+    public string MediaUrl { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

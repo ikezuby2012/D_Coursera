@@ -47,7 +47,6 @@ internal sealed class CreatedCourseCommandHandler(IUnitOfWork unitOfWork,
         };
 
         await unitOfWork.CourseRepository.AddAsync(course);
-        //await unitOfWork.SaveAsync(cancellationToken);
 
         var timelineMedia = new List<CourseTimelineMedia>();
 
@@ -67,7 +66,7 @@ internal sealed class CreatedCourseCommandHandler(IUnitOfWork unitOfWork,
 
         course.Instructor = user;
 
-        var createdCourseDto = (CreatedCourseDto)course!;
+        var createdCourseDto = (CreatedCourseDto)course;
 
         return Result.Success(createdCourseDto);
     }
